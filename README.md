@@ -192,9 +192,9 @@ find the median of X (in terms of distribution parameters)
 
 X = Uni(a,b)
 
-       0                    x < a
-CDF= { 1                    x > b
-       x-a / b-a            x(a,b)
+            0                    x < a
+    CDF= {  1                    x > b
+            x-a / b-a            x(a,b)
 
 Since the median (0.5) is between (a) and (b) we have to use the CDF = x-a / b-a 
 
