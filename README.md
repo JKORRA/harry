@@ -52,25 +52,23 @@ So we can write:
 
 PRIOR
 
+    N(98,16)
+
     Expectation = μ = 98
 
     σ^2= 16
 
 POSTERIOR
 
-100 distanza + Gaussian Noise N(0,4):
+    100 distance + Gaussian Noise N(0,4):
 
-    Expectation = μ = D
+MEAN: μ(posterior) = ( μ(prior) * σ^2(noise) + Z * σ^2(prior) ) / σ^2(prior) + σ^2(noise) = ( (98*4) + (100*16) ) / ( 16 + 4 ) = 99.6
 
-    σ^2 = 4
+VARIANCE: σ^2(posterior) = ( σ^2(prior) * σ^2(noise) ) / ( σ^2(prior) + σ^2(noise) )  = (16*4) / (16+4) = 3.2
 
-PDF(POSTERIOR|PRIOR) ?
+PDF(POSTERIOR)
 
-We have to find the new mean (μ) and the new variance (σ^2).
-
-To find the mean we have just simply to sum the mean of the prior with the mean of the posterior:
-
-..........incompleto............
+    P(D|X=100) = 1/(√(2π*VARIANCE) * e^-( (D-MEAN)^2 / (2*VARIANCE) ) = 1/(√(2π*3.2) * e^-( (D-99.6)^2 / (2*3.2) ) 
 
 ----------------------------------------------------------------------------------------------------
 
@@ -210,12 +208,11 @@ Since the median (0.5) is between (a) and (b) we have to use the CDF = x-a / b-a
 
 X = N(μ, σ^2)
 
-        
 CDF = (x-μ/σ)
 
-        x-0.5
+    CDF = 0.5
 
-...........incompleto...............
+    Φ(0.5) = 0
 
 ----------------------------------------------------------------------------------------------------
 
@@ -237,7 +234,13 @@ exceed 5000 in the next 2 weeks
 
     N(4400, 105800)
 
-    P(X>5000) = P( (X-4400)/325 > (5000-4400)/325 ) = P( Z > 600/325 ) = P( Z > 1,84 ) = 1 - P(Z <= 1,84) = 1 - 0,9671 = 0,0329 = 3,29%
+    P(X>5000) = P( (X-4400)/325 > (5000-4400)/325 )=
+    
+    P( Z > 600/325 ) = P( Z > 1,84 ) =
+
+    1 - P(Z <= 1,84) =
+
+    1 - 0,9671 = 0,0329 = 3,29%
 
 ## b
 
@@ -245,21 +248,35 @@ exceed 2000 in at least 2 of the next 3 weeks
 
 So we can first compute that 1 week exceed 2000:
 
-    P(X>2000) = P( (X-2200)/230 > (2000-2200)/230 ) = P( Z > -200/230) = P( Z > -0,8695 ) = P( Z < 0.8695 ) = 0,8051 (P)
-    
-    1 - P = 1 - 0,8051 = 0,1949 (1-P)
+    P(X>2000) = P( (X-2200)/230 > (2000-2200)/230 ) =
 
-At this point we can use Poisson to compute
+    P( Z > -200/230) =
+
+    P( Z > -0,8695 ) =
+
+    P( Z < 0.8695 ) = 0,8051 (P)
+
+So we can see it as a Binomial Distribution:
+    
+    Y = Bin(n=3, p = 0,8051)
+
+P(X = K) = Combination(X, K) * (p)^X * (1-p)^X-K
+
+    P(X = 2) = Combination(3, 2) * (0,8051)^2 * (1-0,8051)^3-2 = 3 * 0,65 * 0,19 = 0,37
+
+    P(X = 3) = Combination(3, 3) * (0,8051)^3 * (1-0,8051)^3-3 = 1 * 0,52 * 1 = 0,52
+
+    P TOT = P(X = 2) + P(X = 3) = 0,37 + 0,52 = 0,89
 
 ----------------------------------------------------------------------------------------------------
 
 # 5
 
-X = N(μ1, σ1^2)
+    X = N(μ1, σ1^2)
 
-Y = N(μ2, σ2^2)
+    Y = N(μ2, σ2^2)
 
-Z = N(μ3, σ3^2)
+    Z = N(μ3, σ3^2)
 
 ## a
 
@@ -281,9 +298,34 @@ Then we sum
 
 ## c
 
+C = A*X - B*Y + C^2*Z
+
+    A*X = ( (A*μ1), (A^2)*(σ1^2) )
+
+    -B*Y = ( (-B*μ2), (B^2)*(σ2^2) )
+
+    C^2*Z = ( (C^2)*(μ3), (C^4)*(σ3^2) )
+
+    C = (A*X) + (-B*Y) + (C^2*Z)
+
+    C = N( (A*μ1) + (-B*μ2) + (C^2*μ3), (A^2)*(σ1^2) + (B^2)*(σ2^2) + (C^4)*(σ3^2) )
+
 ----------------------------------------------------------------------------------------------------
 
 # 6
+
+X: Skill in Potions
+Y: Skill in Charms
+
+F(X,Y): C^(Y/X)     where 0 < Y < X < 1     ex: (Y=0.20 | X = 0.70)
+
+## a
+
+## b
+
+## c
+
+## d
 
 ----------------------------------------------------------------------------------------------------
 
@@ -291,21 +333,21 @@ Then we sum
 
 We have 2 numbers -> X e Y
 
-X: random number from 1 to 6
+    X: random number from 1 to 6
 
-Y: ranodm number from 1 to X
+    Y: ranodm number from 1 to X
 
 ## a
 
 We have to determine the Joint Probability mass function of X and Y
 
-P(X ∩ B) = P(A) * P(B|A)
+    P(X ∩ B) = P(A) * P(B|A)
 
-P(A) = 1/6
+    P(A) = 1/6
 
-P(B) = 1/X
+    P(B) = 1/X
 
-P(A ∩ B) = 1/6 * 1/X = 1/6X
+    P(A ∩ B) = 1/6 * 1/X = 1/6X
 
 ## b
 
