@@ -14,9 +14,9 @@ PDF PRIOR ?
 
 We can write the PDF for a Normal Distribution as:
 
-    PDF = ( 1 / (σ * √2*π) ) * ( e^(-(D-μ)^2 ) / ( 2*σ^2 ) ) = 
+    PDF = ( 1 / (σ * √2*π) ) * ( e^(-1/2)*(-(D-μ)^2 ) /  σ ) = 
 
-    = ( 1 / ( 4 * √2*π ) ) * ( e^-(D-98)^2 / 32 )
+    = ( 1 / ( 4 * √2*π ) ) * ( e^(-1/2)*-(D-98)^2 / 4 )
 
 ## b
 
@@ -44,9 +44,9 @@ New data:
 
 So we can write:
 
-    PDF(100|T) = ( 1 / (σ * √2*π) ) * ( e^(-(X-T)^2 ) / ( 2*σ^2 ) ) = 
+    PDF(100|T) = ( 1 / (σ * √2*π) ) * ( e^(-1/2)*(-(X-T)^2 ) / σ ) = 
 
-    = ( 1 / ( 2 * √2*π ) ) * ( e^-(100-T)^2 / 8 )
+    = ( 1 / ( 2 * √2*π ) ) * ( e^(-1/2)*-(100-T)^2 / 2 )
 
 ## c
 
@@ -182,7 +182,7 @@ Once we have compute all of those we have to subtract the result to 1 and the re
 
 The median of a Cumulative distribution function is M, s.t.
 
-F(M) = 0.5 
+F(m) = 0.5 
 
 find the median of X (in terms of distribution parameters)
 
@@ -196,13 +196,21 @@ X = Uni(a,b)
 
 Since the median (0.5) is between (a) and (b) we have to use the CDF = x-a / b-a 
 
-    F(M): x-a / b-a = 0.5
+    F(m) = m - a / b - a
 
-    x-a = 0.5*(b-a)
+    F(m) = 0.5 = 1/2
 
-    x = 0.5b - 0.5a + a
+    m - a / b - a = 1/2
 
-    x = 0.5b + 0.5a = (a+b)/2
+    m - a = (1/2)*(b - a)
+
+    2m - 2a = b - a
+
+    2m = b - a + 2a
+
+    2m = b + a
+
+    m = (b + a) / 2
 
 ## b
 
@@ -210,9 +218,17 @@ X = N(μ, σ^2)
 
 CDF = (x-μ/σ)
 
-    CDF = 0.5
+We know that the Φ(0) = 0.5
 
-    Φ(0.5) = 0
+To satify that condition we have to put CDF = 0, so:
+
+    x-μ/σ = 0
+
+    x-μ = 0
+
+    x = μ
+
+So the median of X is the mean μ.
 
 ----------------------------------------------------------------------------------------------------
 
@@ -262,11 +278,14 @@ So we can see it as a Binomial Distribution:
 
 P(X = K) = Combination(X, K) * (p)^X * (1-p)^X-K
 
-    P(X = 2) = Combination(3, 2) * (0,8051)^2 * (1-0,8051)^3-2 = 3 * 0,65 * 0,19 = 0,37
+We take into account just the case of exceed 2000 in at least 2 of the next 3 weeks,
+so we have just to compute the probability for the 2th week and the 3th week.
 
-    P(X = 3) = Combination(3, 3) * (0,8051)^3 * (1-0,8051)^3-3 = 1 * 0,52 * 1 = 0,52
+    P(X = 2) = Combination(3, 2) * (0,8051)^2 * (1-0,8051)^3-2 = 3 * 0,65 * 0,19 = 0,37 (2th WEEK)
 
-    P TOT = P(X = 2) + P(X = 3) = 0,37 + 0,52 = 0,89
+    P(X = 3) = Combination(3, 3) * (0,8051)^3 * (1-0,8051)^3-3 = 1 * 0,52 * 1 = 0,52 (3th WEEK)
+
+    P TOT = P(X = 2) + P(X = 3) = 0,37 + 0,52 = 0,89 = 89%
 
 ----------------------------------------------------------------------------------------------------
 
